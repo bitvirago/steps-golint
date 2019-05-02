@@ -23,7 +23,7 @@ func failf(format string, args ...interface{}) {
 func main() {
 
 	if !installedInPath("golangci-lint") {
-		cmd := command.New("go", "get", "-u", "github.com/golangci/golangci-lint")
+		cmd := command.New("go", "get", "-u", "github.com/golangci/golangci-lint/cmd/golangci-lint")
 
 		log.Infof("\nInstalling golangci-lint")
 		log.Donef("$ %s", cmd.PrintableCommandArgs())

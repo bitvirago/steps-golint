@@ -39,7 +39,7 @@ workflows:
         - content: |-
             #!/bin/bash
             set -uo pipefail
-            go get -u -v github.com/golangci/golangci-lint
+            go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
 
             while read -r line; do
               echo "-> Linting: $line"
