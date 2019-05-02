@@ -1,9 +1,9 @@
 title: Golint
-summary: Runs golint
+summary: Runs golangci-lint
 description: |-
   Runs golint command on the given packages one-by-one:
   
-  `golint -set_exit_status <package>`
+  `golangci-lint run`
 
 website: https://github.com/bitrise-steplib/steps-golint
 source_code_url: https://github.com/bitrise-steplib/steps-golint
@@ -20,13 +20,3 @@ type_tags:
 toolkit:
   go:
     package_name: github.com/bitrise-steplib/steps-golint
-
-inputs:
-- packages: $BITRISE_GO_PACKAGES
-  opts:
-    title: golint target packages
-    summary: golint target packages
-    description: |-
-      Newline (`\n`) separated list of go packages, to run the golint command against.
-
-      Example: `github.com/my/step\ngithub.com/bitrise/step/tool`
