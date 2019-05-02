@@ -21,37 +21,27 @@ func failf(format string, args ...interface{}) {
 }
 
 func main() {
-	packages := os.Getenv("packages")
 
-	log.Infof("Configs:")
-	log.Printf("- packages: %s", packages)
+	if !installedInPath("golangci-lint") {
+		cmd := command.New("go", "get", "-u", "github.com/golangci/golangci-lint")
 
-	if packages == "" {
-		failf("Required input not defined: packages")
-	}
-
-	if !installedInPath("golint") {
-		cmd := command.New("go", "get", "-u", "golang.org/x/lint/golint")
-
-		log.Infof("\nInstalling golint")
+		log.Infof("\nInstalling golangci-lint")
 		log.Donef("$ %s", cmd.PrintableCommandArgs())
 
 		if out, err := cmd.RunAndReturnTrimmedCombinedOutput(); err != nil {
-			failf("Failed to install golint: %s", out)
+			failf("Failed to install golangci-lint: %s", out)
 		}
 	}
 
-	log.Infof("\nRunning golint...")
+	log.Infof("\nRunning golangci-lint...")
 
-	for _, p := range strings.Split(packages, "\n") {
-		cmd := command.New("golint", "-set_exit_status", p)
+	cmd := command.New("golangci-lint", "run")
 
-		log.Printf("$ %s", cmd.PrintableCommandArgs())
+	log.Printf("$ %s", cmd.PrintableCommandArgs())
 
-		if out, err := cmd.RunAndReturnTrimmedCombinedOutput(); err != nil || strings.TrimSpace(out) != "" {
-			log.Errorf("golint failed")
-			log.Printf(out)
-			failf("golint failed: %s", err)
-		}
+	if out, err := cmd.RunAndReturnTrimmedCombinedOutput(); err != nil || strings.TrimSpace(out) != "" {
+		log.Errorf("golangci-lint failed")
+		log.Printf(out)
+		failf("golangci-lint failed: %s", err)
 	}
 }
